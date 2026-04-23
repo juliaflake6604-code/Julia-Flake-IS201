@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Riddle Generator</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.app-container {
+    background-color: rgb(246, 207, 128);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+h1 {
+    color: #1177f4;
+    margin-bottom: 20px;
+}
+
+#riddle-display {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    min-height: 60px;
+    color: #333;
+}
+
+#answer-display {
+    font-weight: bold;
+    color: #28a745;
+    margin: 15px 0;
+    min-height: 24px;
+}
+
+#fact-display {
+    margin-top: 10px;
+    color: #444;
+    font-style: italic;
+    min-height: 24px;
+}
+
+#timer-display {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    background-color: #1177f4;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.back-link {
+    display: block;
+    margin-top: 30px;
+    color: #547fb8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-container">
+    <h1>🌍 Travel Riddle Generator</h1>
+
+    <div id="riddle-display">Click the button to start your journey...</div>
+    <div id="answer-display"></div>
+    <div id="fact-display"></div>
+    <div id="timer-display"></div>
+
+    <div class="btn-group">
+        <button onclick="generateRiddle()">New Riddle</button>
+
+        <button id="answer-btn" onclick="showAnswer()" disabled>
+            Show Answer
+        </button>
+    </div>
+
+    <a href="fromScratch.html" class="back-link">← Back to Travel Destinations</a>
+</div>
+
+<script>
+const riddles = [
+{
+q: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",
+a: "A Map",
+fact: "🌎 Canada has more lakes than any other country."
+},
+{
+q: "I have a heart that doesn't beat, but I've visited every continent. What am I?",
+a: "A Postage Stamp",
+fact: "📮 Japan has over 6,000 islands."
+},
+{
+q: "You step on me to go places, but I never move. What am I?",
+a: "A Road",
+fact: "🛣️ Australia has the world's longest fence."
+},
+{
+q: "I go through towns and over hills, but I never move. What am I?",
+a: "A Path",
+fact: "🏔️ Nepal is home to Mount Everest."
+},
+{
+q: "What has to be broken before you can use it, especially on a tropical breakfast?",
+a: "A Coconut",
+fact: "🥥 The Maldives is the flattest country in the world."
+},
+{
+q: "I fly without wings and cry without eyes. I travel across the sky. What am I?",
+a: "A Cloud",
+fact: "☁️ Bolivia has the world's largest salt flat."
+}
+];
+
+let currentRiddleIndex = -1;
+let timeLeft = 15;
+let timerInterval;
+
+function generateRiddle() {
+    const riddleDisplay = document.getElementById("riddle-display");
+    const answerDisplay = document.getElementById("answer-display");
+    const factDisplay = document.getElementById("fact-display");
+    const timerDisplay = document.getElementById("timer-display");
+    const answerBtn = document.getElementById("answer-btn");
+
+    let newIndex;
+
+    do {
+        newIndex = Math.floor(Math.random() * riddles.length);
+    } while (newIndex === currentRiddleIndex);
+
+    currentRiddleIndex = newIndex;
+
+    riddleDisplay.innerText = riddles[currentRiddleIndex].q;
+    answerDisplay.innerText = "";
+    factDisplay.innerText = "";
+
+    clearInterval(timerInterval);
+
+    timeLeft = 15;
+    answerBtn.disabled = true;
+
+    timerDisplay.innerText = `⏳ Time left: ${timeLeft}s`;
+
+    timerInterval = setInterval(function () {
+        timeLeft--;
+
+        timerDisplay.innerText = `⏳ Time left: ${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            answerBtn.disabled = false;
+            timerDisplay.innerText = "✅ You can now reveal the answer!";
+        }
+    }, 1000);
+}
+
+function showAnswer() {
+    const answerDisplay = document.getElementById("answer-display");
+    const factDisplay = document.getElementById("fact-display");
+
+    if (currentRiddleIndex !== -1) {
+        answerDisplay.innerText = riddles[currentRiddleIndex].a;
+        factDisplay.innerText = riddles[currentRiddleIndex].fact;
+    }
+}
+</script>
+
+</body>
+</html>
+```
